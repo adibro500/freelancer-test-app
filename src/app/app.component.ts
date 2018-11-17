@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
 
   addNew(issue: Issue) {
     const dialogRef = this.dialog.open(AddDialogComponent, {
-      data: {issue: issue }
+      data: {issue: issue, products: this.exampleDatabase.dataChange.value }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -54,19 +54,19 @@ export class AppComponent implements OnInit {
     });
   }
 
-  startEdit(i: number, id: number, title: string, state: string, url: string, created_at: string, updated_at: string) {
-    this.id = id;
+  startEdit(i: number, invoice_no: number, Customer: string, total_quantity_invoice: string, total_amt: string) {
+    this.invoice_no = invoice_no;
     // index row is used just for debugging proposes and can be removed
     this.index = i;
     console.log(this.index);
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {id: id, title: title, state: state, url: url, created_at: created_at, updated_at: updated_at}
+      data: {invoice_no:invoice_no, Customer:Customer, total_quantity_invoice:total_quantity_invoice, total_amt:total_amt}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.invoice_no === this.invoice_no);
         // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
     this.index = i;
     this.invoice_no = invoice_no;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {invoice_no, Customer, total_quantity_invoice, total_amt}
+      data: {invoice_no:invoice_no, Customer:Customer, total_quantity_invoice:total_quantity_invoice, total_amt:total_amt}
     });
 
     dialogRef.afterClosed().subscribe(result => {

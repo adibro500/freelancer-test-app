@@ -1,11 +1,11 @@
 <div class="container">
-  <h3 mat-dialog-title>Issue id: {{data.id}}</h3>
+  <h3 mat-dialog-title> Product No.: {{data.invoice_no}}</h3>
 
   <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Id" [(ngModel)]="data.id" name="id" required >
+        <input matInput #input class="form-control" placeholder="Invoice No." [(ngModel)]="data.invoice_no" name="id" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
@@ -13,37 +13,32 @@
     <!--Textarea for demo purposes-->
     <div class="form">
       <mat-form-field color="accent">
-        <textarea matInput #input class="form-control" placeholder="Title" [(ngModel)]="data.title" name="title" required ></textarea>
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <input matInput [matDatepicker]="picker1" placeholder="Invoice Date" [(ngModel)]="data.invoice_date" name="date">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
     </div>
 
     <!--Contains mat-hint for characters count and has maxLengt set-->
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #inputstate class="form-control" placeholder="State" [(ngModel)]="data.state" name="state" maxlength="10" required >
+        <input matInput #inputstate class="form-control" placeholder="Customer" [(ngModel)]="data.Customer" name="state" maxlength="10" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
         <mat-hint align="end">{{inputstate.value?.length || 0}}/10</mat-hint>
       </mat-form-field>
     </div>
-
     <div class="form">
         <mat-form-field color="accent">
-          <input matInput placeholder="Url" [(ngModel)]="data.url" name="url">
+          <input matInput placeholder="Total Quatity Invoice" [(ngModel)]="data.total_quantity_invoice" name="url">
         </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput placeholder="Created at" [(ngModel)]="data.created_at" name="created_at">
+        <input matInput placeholder="Total Amt." [(ngModel)]="data.total_amt" name="created_at">
       </mat-form-field>
     </div>
 
-    <div class="form">
-      <mat-form-field color="accent">
-        <input matInput placeholder="Updated at" [(ngModel)]="data.updated_at" name="updated_at">
-      </mat-form-field>
-    </div>
 
     <div mat-dialog-actions>
       <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>

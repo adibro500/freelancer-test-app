@@ -4,5 +4,5 @@ export class Issue {
   Customer: string;
   total_quantity_invoice: string;
   total_amt: string;
-  Issue_id: number;
+  product_id: number;
 }
