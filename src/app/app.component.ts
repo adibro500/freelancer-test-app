@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   exampleDatabase: DataService | null;
   dataSource: ExampleDataSource | null;
   index: number;
-  id: number;
+  invoice_no: number;
 
   constructor(public httpClient: HttpClient,
               public dialog: MatDialog,
@@ -38,6 +38,21 @@ export class AppComponent implements OnInit {
   refresh() {
     this.loadData();
   }
+
+  getToolTipData(issueId: number): string {
+    const issue = this.exampleDatabase.dataChange.value.find(i => i.invoice_no == issueId);
+    return `Title: ${issue.product_id} ||
+        State: ${issue.total_amt} ||
+        Date: ${issue.total_quantity_invoice}`;
+}
+
+getTotalCost() {
+let total = 0;
+  this.exampleDatabase.dataChange.value.forEach((obj) => {
+    total += obj.total_amt
+  });
+return total;
+}
 
   addNew(issue: Issue) {
     const dialogRef = this.dialog.open(AddDialogComponent, {
@@ -84,7 +99,7 @@ export class AppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.invoice_no === this.invoice_no);
         // for delete we use splice in order to remove single object from DataService
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
@@ -201,12 +216,12 @@ export class ExampleDataSource extends DataSource<Issue> {
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
-        case 'id': [propertyA, propertyB] = [a.id, b.id]; break;
-        case 'title': [propertyA, propertyB] = [a.title, b.title]; break;
-        case 'state': [propertyA, propertyB] = [a.state, b.state]; break;
-        case 'url': [propertyA, propertyB] = [a.url, b.url]; break;
-        case 'created_at': [propertyA, propertyB] = [a.created_at, b.created_at]; break;
-        case 'updated_at': [propertyA, propertyB] = [a.updated_at, b.updated_at]; break;
+        case 'invoice_no': [propertyA, propertyB] = [a.invoice_no, b.invoice_no]; break;
+        case 'invoice_date': [propertyA, propertyB] = [a.invoice_date, b.invoice_date]; break;
+        case 'Customer': [propertyA, propertyB] = [a.Customer, b.Customer]; break;
+        case 'total_quantity_invoice': [propertyA, propertyB] = [a.total_quantity_invoice, b.total_quantity_invoice]; break;
+        case 'total_amt': [propertyA, propertyB] = [a.total_amt, b.total_amt]; break;
+        case 'product_id': [propertyA, propertyB] = [a.product_id, b.product_id]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
@@ -215,4 +230,7 @@ export class ExampleDataSource extends DataSource<Issue> {
       return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
     });
   }
+  
+
+
 }

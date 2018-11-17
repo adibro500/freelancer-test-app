@@ -1,0 +1,33 @@
+<mat-toolbar color="primary">
+  <span>Sample App</span>
+</mat-toolbar>
+
+<!-- <div class="container mat-elevation-z8"> -->
+
+    <mat-card style="margin: 0 auto;float: none;margin-bottom: 10px;top:15%;">
+        <mat-card-header>
+          <!-- [ngStyle]="{'background-image': 'url(' + person.img_url + ')'}" -->
+        <h3>Login</h3>
+          <br/> &nbsp;
+         
+        </mat-card-header>
+        <mat-card-content>
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="User name">
+            </mat-form-field>
+          <br>
+            <mat-form-field class="example-full-width">
+              <input type="password" matInput placeholder="Password">
+            </mat-form-field>
+            <div class="example-button-row">
+              <button mat-raised-button color="primary" [routerLink]="['/data']">Sign In</button>
+            </div>
+          </form>
+        </mat-card-content>
+        <!-- <mat-card-actions>
+          <button (click)="openModal(template)" mat-button>Edit</button>
+          <button (click)="openModal(deleteTemplate)" mat-button>Delete</button>
+        </mat-card-actions> -->
+      </mat-card>
+<!-- </div> -->

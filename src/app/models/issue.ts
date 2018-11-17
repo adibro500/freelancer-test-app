@@ -3,6 +3,6 @@ export class Issue {
   invoice_date: string;
   Customer: string;
   total_quantity_invoice: string;
-  total_amt: string;
+  total_amt: number;
   product_id: number;
 }

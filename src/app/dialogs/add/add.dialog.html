@@ -4,9 +4,7 @@
   <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
 
     
-<table><tr>
   
-    <td>
         <!--Textarea for demo purposes-->
         <div class="form">
           <mat-form-field color="accent">
@@ -14,8 +12,7 @@
             <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
           </mat-form-field>
         </div>
-        </td>
-        <td>
+        
 
             <div class="form">
               <mat-form-field color="accent">
@@ -24,9 +21,7 @@
                 <mat-datepicker #picker1></mat-datepicker>
               </mat-form-field>
             </div>
-        
-          </td>
-  <td>
+  
     <!--Textarea for demo purposes-->
     <div class="form">
       <mat-form-field color="accent">
@@ -34,54 +29,42 @@
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
-    </td>
-  </tr>
-  <tr>
-  <td>
+
     <div class="form">
       <mat-form-field color="accent">
         <input matInput placeholder="Total quantity invoice" [(ngModel)]="data.total_quantity_invoice" name="updated_at">
       </mat-form-field>
     </div>
-  </td>
-  <td>
-      <div class="form">
+  
+      <!-- <div class="form">
         <mat-form-field color="accent">
           <input matInput placeholder="Product ID" [(ngModel)]="data.Issue_id" name="prod_id">
         </mat-form-field>
-      </div>
-    </td>
-    <td>
+      </div> -->
+   
     <form class="example-form">
         <mat-form-field class="example-full-width">
-          <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
+          <input type="text" placeholder="Product ID" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getPost($event.option.value)'>
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{option}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </form>
-    </td>
-  <td>
+ 
     <div class="form">
       <mat-form-field color="accent">
         <input matInput placeholder="Total Amount" [(ngModel)]="data.total_amt" name="updated_at">
       </mat-form-field>
     </div>
-  </td>
-  
-  </tr>
-  <tr>
-  <td>
+
 
     <div mat-dialog-actions>
       <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
       <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
     </div>
-  </td>
-  </tr>
-</table>
+ 
   </form>
 
 </div>

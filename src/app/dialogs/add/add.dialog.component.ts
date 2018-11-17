@@ -19,7 +19,7 @@ export class AddDialogComponent implements OnInit{
   filteredOptions: Observable<string[]>;
 
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Issue,
+              @Inject(MAT_DIALOG_DATA) public data:any,
               public dataService: DataService) {
               }
 
@@ -76,5 +76,17 @@ export class AddDialogComponent implements OnInit{
       map(value => this._filter(value))
     );
   }
+  getPost($evt){
+    console.log($evt)
+    let filteredIdx;
+    this.options.forEach((obj,idx) => {
+      if(obj == $evt){
+        filteredIdx = idx;
+        return;
+      }
+    })
+    this.data = this.data.products[filteredIdx];
+  }
+
 
 }

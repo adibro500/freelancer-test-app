@@ -23,27 +23,32 @@
     <!-- ID Column -->
     <ng-container matColumnDef="Invoice No.">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Invoice No.</mat-header-cell>
-      <mat-cell *matCellDef="let row" >{{row.invoice_no}}</mat-cell>
+      <mat-cell *matCellDef="let row" [matTooltip]="getToolTipData(row.invoice_no)">{{row.invoice_no}}</mat-cell>
+      <td mat-footer-cell *matFooterCellDef> </td>
     </ng-container>
 
     <ng-container matColumnDef="Invoice Date">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Invoice Date</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.invoice_date | dateFormatPipe }}</mat-cell>
+      <mat-cell *matCellDef="let row" [matTooltip]="getToolTipData(row.invoice_no)"> {{row.invoice_date | dateFormatPipe }}</mat-cell>
+      <td mat-footer-cell *matFooterCellDef> </td>
     </ng-container>
 
     <ng-container matColumnDef="Customer">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Customer</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.Customer}}</mat-cell>
+      <mat-cell *matCellDef="let row" [matTooltip]="getToolTipData(row.invoice_no)"> {{row.Customer}}</mat-cell>
+      <td mat-footer-cell *matFooterCellDef> </td>
     </ng-container>
 
     <ng-container matColumnDef="Total Quantity Invoice">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Total Quantity Invoice</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.total_quantity_invoice}}</mat-cell>
+      <mat-cell *matCellDef="let row" [matTooltip]="getToolTipData(row.invoice_no)"> {{row.total_quantity_invoice}}</mat-cell>
+      <td mat-footer-cell *matFooterCellDef> </td>
     </ng-container>
 
     <ng-container matColumnDef="Total Amt.">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Total Amt.</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.total_amt}}</mat-cell>
+      <mat-cell *matCellDef="let row" [matTooltip]="getToolTipData(row.invoice_no)"> {{row.total_amt}}</mat-cell>
+      <td mat-footer-cell *matFooterCellDef><b> Total: {{getTotalCost() }} </b> </td>
     </ng-container>
 
     <!-- actions -->
@@ -63,10 +68,14 @@
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
       </mat-cell>
+      <td mat-footer-cell *matFooterCellDef> </td>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
+    <!-- <mat-row *matRowDef="let row; columns: displayedColumns; let last = last;" [ngClass]="{'last-table-row': last}"> </mat-row> -->
+
   </mat-table>
 
 

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {
   MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule,
-  MatTableModule, MatToolbarModule, DateAdapter, MAT_DATE_FORMATS,
+  MatTableModule, MatToolbarModule, DateAdapter, MAT_DATE_FORMATS, MatCardModule,
 } from '@angular/material';
 import {DataService} from './services/data.service';
 import {AddDialogComponent} from './dialogs/add/add.dialog.component';
@@ -19,6 +19,15 @@ import {MatNativeDateModule} from '@angular/material';
 import { MyDateAdapter, MY_DATE_FORMATS} from './dateAdapter/dateAdapter';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { dateFormatPipe } from './date.pipe';
+import { LoginComponent } from './login/login.component';
+import { RootComponent } from './root/root.component';
+import {Routes,RouterModule} from '@angular/router';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+const routes:Routes =[
+{path:'',component: LoginComponent},
+{path:'data',component: AppComponent}
+]
 
 @NgModule({
   declarations: [
@@ -26,7 +35,9 @@ import { dateFormatPipe } from './date.pipe';
     AddDialogComponent,
     EditDialogComponent,
     DeleteDialogComponent,
-    dateFormatPipe
+    dateFormatPipe,
+    LoginComponent,
+    RootComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +47,7 @@ import { dateFormatPipe } from './date.pipe';
     MatAutocompleteModule,
     HttpClientModule,
     MatDialogModule,
+    MatTooltipModule,
     FormsModule,
     MatButtonModule,
     MatInputModule,
@@ -44,7 +56,9 @@ import { dateFormatPipe } from './date.pipe';
     MatTableModule,
     MatToolbarModule,
     MatPaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule,
+    RouterModule.forRoot(routes)
   ],
   entryComponents: [
     AddDialogComponent,
@@ -56,6 +70,6 @@ import { dateFormatPipe } from './date.pipe';
       {provide: DateAdapter, useClass: MyDateAdapter},
       {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [RootComponent]
 })
 export class AppModule { }
