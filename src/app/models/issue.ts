@@ -1,8 +1,8 @@
 export class Issue {
-  id: number;
-  title: string;
-  state: string;
-  url: string;
-  created_at: string;
-  updated_at: string;
+  invoice_no: number;
+  invoice_date: string;
+  Customer: string;
+  total_quantity_invoice: string;
+  total_amt: string;
+  Issue_id: number;
 }

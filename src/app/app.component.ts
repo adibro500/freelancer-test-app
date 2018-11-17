@@ -17,7 +17,7 @@ import {map} from 'rxjs/operators';
 })
 
 export class AppComponent implements OnInit {
-  displayedColumns = ['id', 'title', 'state', 'url', 'created_at', 'updated_at', 'actions'];
+  displayedColumns = ['Invoice No.', 'Invoice Date', 'Customer', 'Total Quantity Invoice', 'Total Amt.','actions'];
   exampleDatabase: DataService | null;
   dataSource: ExampleDataSource | null;
   index: number;
@@ -75,11 +75,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  deleteItem(i: number, id: number, title: string, state: string, url: string) {
+  deleteItem(i: number, invoice_no: number, Customer: string, total_quantity_invoice: string, total_amt: string) {
     this.index = i;
-    this.id = id;
+    this.invoice_no = invoice_no;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {id: id, title: title, state: state, url: url}
+      data: {invoice_no, Customer, total_quantity_invoice, total_amt}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -172,7 +172,7 @@ export class ExampleDataSource extends DataSource<Issue> {
     return merge(...displayDataChanges).pipe(map( () => {
         // Filter data
         this.filteredData = this._exampleDatabase.data.slice().filter((issue: Issue) => {
-          const searchStr = (issue.id + issue.title + issue.url + issue.created_at).toLowerCase();
+          const searchStr = (issue.invoice_no + issue.invoice_date + issue.Customer).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
 
