@@ -18,6 +18,7 @@ export class DeleteDialogComponent {
   }
 
   confirmDelete(): void {
+    if(this.data)
     this.dataService.deleteIssue(this.data.invoice_no);
   }
 }

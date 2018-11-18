@@ -3,25 +3,26 @@
 
   <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
 
-    
-  
+    <table>
+  <tr>
         <!--Textarea for demo purposes-->
         <div class="form">
           <mat-form-field color="accent">
-            <textarea matInput #input class="form-control" placeholder="Invoice No." [(ngModel)]="data.invoice_no" name="title" required ></textarea>
+            <input matInput #inputELmt class="form-control" placeholder="Invoice No." [(ngModel)]="data.invoice_no" name="title" >
             <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
           </mat-form-field>
-        </div>
-        
+        </div>     
+<td>
 
             <div class="form">
               <mat-form-field color="accent">
-                <input matInput [matDatepicker]="picker1" placeholder="Invoice Date" [(ngModel)]="data.invoice_date" name="date">
+                <input matInput  [matDatepicker]="picker1" placeholder="Invoice Date" [(ngModel)]="data.invoice_date" (dateChange)="changed(ref)" name="date">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
               </mat-form-field>
             </div>
-  
+</td>
+<td>
     <!--Textarea for demo purposes-->
     <div class="form">
       <mat-form-field color="accent">
@@ -30,41 +31,73 @@
       </mat-form-field>
     </div>
 
-    <div class="form">
-      <mat-form-field color="accent">
-        <input matInput placeholder="Total quantity invoice" [(ngModel)]="data.total_quantity_invoice" name="updated_at">
-      </mat-form-field>
-    </div>
-  
+</td>
       <!-- <div class="form">
         <mat-form-field color="accent">
           <input matInput placeholder="Product ID" [(ngModel)]="data.Issue_id" name="prod_id">
         </mat-form-field>
       </div> -->
    
-    <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <input type="text" placeholder="Product ID" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getPost($event.option.value)'>
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </form>
+    </tr>
+    </table>
+    
+
+
+    
  
-    <div class="form">
-      <mat-form-field color="accent">
-        <input matInput placeholder="Total Amount" [(ngModel)]="data.total_amt" name="updated_at">
-      </mat-form-field>
+    <div class="mat-table">
+      <div class="mat-header-row">
+        <div class="mat-header-cell">Product</div>
+        <div class="mat-header-cell">Quantity</div>
+        <div class="mat-header-cell">Rate</div>
+        <div class="mat-header-cell">Delete</div>
+
+      </div>
+      <div class="mat-row">
+        <div class="mat-cell">
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <input type="text" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getPost($event.option.value)'>
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="mat-cell">
+          <div class="form">
+            <mat-form-field color="accent">
+              <input matInput [(ngModel)]="data.total_quantity_invoice" name="updated_at">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="mat-cell">
+          <div class="form">
+            <mat-form-field color="accent">
+              <input matInput [(ngModel)]="data.total_amt" name="updated_at">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="mat-cell">
+          <div class="form">
+            <!-- <mat-form-field color="accent"> -->
+                <button mat-raised-button [mat-dialog-close]="2" (click)="deleteItem(data)">Delete</button>
+            <!-- </mat-form-field> -->
+          </div>
+        </div>
+      </div>
     </div>
-
-
+  
+  
     <div mat-dialog-actions>
-      <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
-      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
-    </div>
- 
+        <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+        <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+      </div>
+
+
+
   </form>
 
 </div>

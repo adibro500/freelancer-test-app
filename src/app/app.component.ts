@@ -41,14 +41,15 @@ export class AppComponent implements OnInit {
 
   getToolTipData(issueId: number): string {
     const issue = this.exampleDatabase.dataChange.value.find(i => i.invoice_no == issueId);
-    return `Title: ${issue.product_id} ||
-        State: ${issue.total_amt} ||
-        Date: ${issue.total_quantity_invoice}`;
+    return `Product Id: ${issue.product_id} ||
+        Total Amount: ${issue.total_amt} ||
+        Quantity of invoice: ${issue.total_quantity_invoice}`;
 }
 
 getTotalCost() {
 let total = 0;
   this.exampleDatabase.dataChange.value.forEach((obj) => {
+    if(obj !== undefined)
     total += obj.total_amt
   });
 return total;
@@ -64,6 +65,14 @@ return total;
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.exampleDatabase.dataChange.value.push(this.dataService.getDialogData());
+        this.refreshTable();
+      }
+      if (result === 2) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataService
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.invoice_no === this.invoice_no);
+        // for delete we use splice in order to remove single object from DataService
+        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
       }
     });
@@ -187,8 +196,10 @@ export class ExampleDataSource extends DataSource<Issue> {
     return merge(...displayDataChanges).pipe(map( () => {
         // Filter data
         this.filteredData = this._exampleDatabase.data.slice().filter((issue: Issue) => {
+          if(issue !== undefined){
           const searchStr = (issue.invoice_no + issue.invoice_date + issue.Customer).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+          }
         });
 
         // Sort filtered data
