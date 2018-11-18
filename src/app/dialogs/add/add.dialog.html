@@ -8,7 +8,7 @@
         <!--Textarea for demo purposes-->
         <div class="form">
           <mat-form-field color="accent">
-            <input matInput #inputELmt class="form-control" placeholder="Invoice No." [(ngModel)]="data.invoice_no" name="title" >
+            <input matInput #inputELmt class="form-control" placeholder="Invoice No." [(ngModel)]="data.invoice_no" name="no" >
             <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
           </mat-form-field>
         </div>     
