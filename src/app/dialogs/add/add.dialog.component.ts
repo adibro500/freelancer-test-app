@@ -1,5 +1,5 @@
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material';
-import {Component, Inject, OnInit, ElementRef, ViewChild, forwardRef, EventEmitter} from '@angular/core';
+import {Component, Inject, OnInit, ElementRef, ViewChild, forwardRef, EventEmitter, OnChanges, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {FormControl, Validators} from '@angular/forms';
 import {Issue} from '../../models/Issue';
@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { DeleteDialogComponent } from '../delete/delete.dialog.component';
 import {AppComponent} from '../../app.component';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-add.dialog',
@@ -15,15 +16,19 @@ import {AppComponent} from '../../app.component';
   providers:[DeleteDialogComponent]
 })
 
-export class AddDialogComponent implements OnInit{
+export class AddDialogComponent implements OnInit, OnChanges{
   displayedColumns = ['Invoice No.', 'Invoice Date', 'Customer', 'Total Quantity Invoice', 'Total Amt.'];
 @ViewChild('inputELmt') el: ElementRef;
 public event: EventEmitter<any> = new EventEmitter();
+byControl = new FormControl();
 
   myControl = new FormControl();
   options: string[] = [];
+  optCustomers: string[] = [];
+  products: any[] = [];
   filteredOptions: Observable<string[]>;
-
+  filteredCustomers: Observable<string[]>;
+  deleteBtnEnable:boolean = false;
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data:any,
               public dataService: DataService,
@@ -69,9 +74,14 @@ public event: EventEmitter<any> = new EventEmitter();
 
 
   private _filter(value: string): string[] {
+    const filterValue = value;
+
+    return this.options.filter(option => option.includes(filterValue));
+  }
+  private _filterCustomers(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.optCustomers.filter(optCustomer => optCustomer.toLowerCase().includes(filterValue));
   }
 
   ngOnInit() {
@@ -80,15 +90,30 @@ public event: EventEmitter<any> = new EventEmitter();
       this.options.push(li.product_id+'');
       }
     }) 
+    this.data.products.forEach((li) => {
+      if(li !== undefined){
+      this.optCustomers.push(li.Customer);
+      }
+    }) 
+    console.log('jjjj',this.optCustomers);
 
     this.filteredOptions = this.myControl.valueChanges
     .pipe(
       startWith(''),
       map(value => this._filter(value))
     );
+    this.filteredCustomers = this.byControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filterCustomers(value))
+    );
+
+    this.products = this.data.products;
   }
   getPost($evt){
-    console.log($evt)
+    if($evt !== undefined || $evt !== ''){
+      this.deleteBtnEnable = true;
+      console.log($evt)
     let filteredIdx;
     this.options.forEach((obj,idx) => {
       if(obj == $evt){
@@ -96,13 +121,57 @@ public event: EventEmitter<any> = new EventEmitter();
         return;
       }
     })
-    this.data = this.data.products[filteredIdx];
+    this.data = this.products[filteredIdx];
     // this.el.nativeElement.value = this.data.products[filteredIdx].invoice_no
     console.log(this.data)
-  }
-deleteItem(data){
-  this.dataService.deleteIssue(this.data.invoice_no);
+    // this.byCustomer(this.data.Customer)
+  } else 
+  this.deleteBtnEnable = false;
+
 }
 
+  byCustomer(evt){
+    if(evt !== undefined || evt !== ''){
+      this.deleteBtnEnable = true;
+    const foundIndex = this.products.findIndex(x => x.Customer === evt);
+    this.data = this.products[foundIndex];
+    // this.el.nativeElement.value = this.data.products[filteredIdx].invoice_no
+    console.log(this.data)
+    // this.getPost(this.data.product_id)
+  } else
+  this.deleteBtnEnable = false;
 
+}
+deleteItem(data){
+  if(this.data)
+  this.dataService.deleteIssue(this.data.invoice_no);
+  else
+  this.data.invoice_no = -1
+}
+
+ngOnChanges() {
+  this.dialogRef.afterClosed().subscribe(result => {
+    if (result === 2|| result === 1) {
+      this.options =[];
+      this.optCustomers = [];
+    }})
+    if(!this.data) {
+      this.deleteBtnEnable = false
+    }
+}
+events: string[] = [];
+
+addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  this.events.push(`${type}: ${event.value}`);
+}
+
+valueChanged($evt) {
+  if($evt){
+  console.log($evt)
+  let year = $evt.getFullYear()
+  let month = $evt.getMonth()
+  let day = $evt.getDate()
+  return day+'/'+month +'/'+year;
+}
+}
 }

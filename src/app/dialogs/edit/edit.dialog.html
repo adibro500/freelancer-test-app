@@ -13,9 +13,9 @@
     <!--Textarea for demo purposes-->
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput [matDatepicker]="picker1" placeholder="Invoice Date" [(ngModel)]="data.invoice_date" [value]="data.invoice_date" name="date">
+        <input matInput [matDatepicker]="picker1" placeholder="Invoice Date" [(ngModel)]="data.invoice_date" name="date" disabled>
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
+        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
       </mat-form-field>
     </div>
 

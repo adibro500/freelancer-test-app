@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   exampleDatabase: DataService | null;
   dataSource: ExampleDataSource | null;
   index: number;
-  invoice_no: number;
+  invoice_no: number = -1;
 
   constructor(public httpClient: HttpClient,
               public dialog: MatDialog,
@@ -50,7 +50,7 @@ getTotalCost() {
 let total = 0;
   this.exampleDatabase.dataChange.value.forEach((obj) => {
     if(obj !== undefined)
-    total += obj.total_amt
+    total += Number(obj.total_amt)
   });
 return total;
 }
@@ -61,17 +61,18 @@ return total;
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
+      if (result === -1) {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.exampleDatabase.dataChange.value.push(this.dataService.getDialogData());
         this.refreshTable();
       }
-      if (result === 2) {
+      if (result !== -1) {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.invoice_no === this.invoice_no);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.invoice_no === result);
         // for delete we use splice in order to remove single object from DataService
+        // console.log('a',this.dataService.getDialogData())
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
       }
