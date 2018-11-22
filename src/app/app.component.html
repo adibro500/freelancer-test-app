@@ -60,11 +60,11 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let row; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(i, row.invoice_no, row.Customer, row.total_quantity_invoice, row.total_amt)">
+        <button mat-icon-button color="accent" (click)="startEdit(i, row.invoice_no,row.invoice_date, row.Customer, row.total_quantity_invoice, row.total_amt)">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="deleteItem(i, row.invoice_no, row.Customer, row.total_quantity_invoice, row.total_amt)">
+        <button mat-icon-button color="accent" (click)="deleteItem(i, row.invoice_no,row.invoice_date, row.Customer, row.total_quantity_invoice, row.total_amt)">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
       </mat-cell>

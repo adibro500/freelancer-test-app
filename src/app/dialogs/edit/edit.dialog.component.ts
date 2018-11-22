@@ -13,6 +13,8 @@ export class EditDialogComponent {
   constructor(public dialogRef: MatDialogRef<EditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any, public dataService: DataService) {
                console.log(this.data)
+               console.log(this.data.invoice_date)
+               this.data.invoice_date = new Date(this.data.invoice_date)
                }
 
   formControl = new FormControl('', [

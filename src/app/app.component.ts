@@ -79,13 +79,13 @@ return total;
     });
   }
 
-  startEdit(i: number, invoice_no: number, Customer: string, total_quantity_invoice: string, total_amt: string) {
+  startEdit(i: number, invoice_no: number,invoice_date:string, Customer: string, total_quantity_invoice: string, total_amt: string) {
     this.invoice_no = invoice_no;
     // index row is used just for debugging proposes and can be removed
     this.index = i;
     console.log(this.index);
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {invoice_no:invoice_no, Customer:Customer, total_quantity_invoice:total_quantity_invoice, total_amt:total_amt}
+      data: {invoice_no:invoice_no,invoice_date:invoice_date, Customer:Customer, total_quantity_invoice:total_quantity_invoice, total_amt:total_amt}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -100,11 +100,11 @@ return total;
     });
   }
 
-  deleteItem(i: number, invoice_no: number, Customer: string, total_quantity_invoice: string, total_amt: string) {
+  deleteItem(i: number, invoice_no: number,invoice_date:string, Customer: string, total_quantity_invoice: string, total_amt: string) {
     this.index = i;
     this.invoice_no = invoice_no;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {invoice_no:invoice_no, Customer:Customer, total_quantity_invoice:total_quantity_invoice, total_amt:total_amt}
+      data: {invoice_no:invoice_no,invoice_date:invoice_date, Customer:Customer, total_quantity_invoice:total_quantity_invoice, total_amt:total_amt}
     });
 
     dialogRef.afterClosed().subscribe(result => {

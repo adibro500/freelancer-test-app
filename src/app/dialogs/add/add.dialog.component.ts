@@ -122,6 +122,8 @@ byControl = new FormControl();
       }
     })
     this.data = this.products[filteredIdx];
+    this.products[filteredIdx].invoice_date = new Date(this.data.products[filteredIdx].invoice_date);
+
     // this.el.nativeElement.value = this.data.products[filteredIdx].invoice_no
     console.log(this.data)
     // this.byCustomer(this.data.Customer)
@@ -134,7 +136,10 @@ byControl = new FormControl();
     if(evt !== undefined || evt !== ''){
       this.deleteBtnEnable = true;
     const foundIndex = this.products.findIndex(x => x.Customer === evt);
+
     this.data = this.products[foundIndex];
+    this.products[foundIndex].invoice_date = new Date(this.products[foundIndex].invoice_date);
+
     // this.el.nativeElement.value = this.data.products[filteredIdx].invoice_no
     console.log(this.data)
     // this.getPost(this.data.product_id)
